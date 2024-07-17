@@ -17,6 +17,12 @@ class OpenAPIConfig {
                     .version("1.0")
                     .description("This is Store API using Spring Boot and PostgreSQL")
             )
+            .tags(
+                listOf(
+                    io.swagger.v3.oas.models.tags.Tag().name("Categories").description("This API for managing categories"),
+                    io.swagger.v3.oas.models.tags.Tag().name("Products").description("This API for managing products"),
+                )
+            )
     }
 
 }

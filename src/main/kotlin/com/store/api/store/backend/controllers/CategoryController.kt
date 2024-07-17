@@ -27,7 +27,6 @@ class CategoryController(private val categoryService: CategoryService) {
         }
     }
 
-    // ฟังก์ชันสำหรับการเพิ่มข้อมูล Category
     // POST /api/categories
     @PostMapping
     fun addCategory(@RequestBody category: Category): ResponseEntity<Category> {
@@ -35,7 +34,6 @@ class CategoryController(private val categoryService: CategoryService) {
         return ResponseEntity.ok(savedCategory)
     }
 
-    // ฟังก์ชันสำหรับการแก้ไขข้อมูล Category
     // PUT /api/categories/{id}
     @PutMapping("/{id}")
     fun updateCategory(@PathVariable id: Int, @RequestBody category: Category): ResponseEntity<Category> {
@@ -47,7 +45,6 @@ class CategoryController(private val categoryService: CategoryService) {
         }
     }
 
-    // ฟังก์ชันสำหรับการลบข้อมูล Category
     // DELETE /api/categories/{id}
     @DeleteMapping("/{id}")
     fun deleteCategory(@PathVariable id: Int): ResponseEntity<Category> {

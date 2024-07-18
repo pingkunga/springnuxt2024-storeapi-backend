@@ -83,14 +83,17 @@ class UserController(
         return if (user != null && passwordEncoder.matches(model.password, user.password)) {
             val roles = user.roles.map { it.roleName.name }
             val token = jwtUtil.generateToken(user.username, roles)
+            val expiration = jwtUtil.getExpirationDateFromToken(token)
 
+            val data = mapOf(
+                "token" to token,
+                "userName" to user.username,
+                "email" to user.email,
+                "roles" to roles,
+                "expiration" to expiration
+            )
             ResponseEntity.ok(ResponseModel(
-                "Success", "Login successful", mapOf(
-                    "token" to token,
-                    "userName" to user.username,
-                    "email" to user.email,
-                    "roles" to roles
-                ).toString()
+                "Success", "Login successful", data
             ))
         } else {
             ResponseEntity.status(401).body(ResponseModel("Error", "Invalid username or password"))

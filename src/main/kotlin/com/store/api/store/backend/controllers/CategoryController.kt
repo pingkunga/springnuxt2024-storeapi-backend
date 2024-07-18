@@ -5,11 +5,13 @@ import com.store.api.store.backend.services.CategoryService
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
 import org.springframework.http.ResponseEntity
+import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.*
 
 @Tag(name = "Categories", description = "APIs for managing categories")
 @RestController
 @RequestMapping("/api/v1/categories")
+@PreAuthorize("hasAuthority('ADMIN') or hasAuthority('MANAGER')")
 class CategoryController(private val categoryService: CategoryService) {
 
     // GET /api/categories
@@ -23,6 +25,8 @@ class CategoryController(private val categoryService: CategoryService) {
     // GET /api/categories/{id}
     @Operation(summary = "Get category by ID", description = "Get category by ID from database")
     @GetMapping("/{id}")
+    //By Method Example
+    //@PreAuthorize("hasAuthority('ADMIN') or hasAuthority('MANAGER')")
     fun getCategory(@PathVariable id: Int): ResponseEntity<Category> {
         val category = categoryService.getCategoryById(id)
         return if (category.isPresent) {

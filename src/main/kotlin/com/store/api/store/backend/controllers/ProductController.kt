@@ -4,6 +4,8 @@ import com.store.api.store.backend.models.Product
 import com.store.api.store.backend.services.ProductService
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
+import org.springframework.data.domain.PageRequest
+import org.springframework.data.domain.Pageable
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
@@ -12,10 +14,35 @@ import org.springframework.web.bind.annotation.*
 @RestController
 @RequestMapping("/api/v1/products")
 class ProductController(private val productService: ProductService) {
-    // Get all products
+    // Get all products + search + pagination
     @Operation(summary = "Get all products", description = "Get all products from database")
     @GetMapping
-    fun getAllProducts() = productService.getAllProducts()
+    fun getAllProducts(
+        @RequestParam(required = false, value = "searchQuery") searchQuery: String?,
+        @RequestParam(required = false, value = "selectedCategory") selectedCategory: Int?,
+        @RequestParam(defaultValue = "1") page: Int,
+        @RequestParam(defaultValue = "100") size: Int
+    ): ResponseEntity<Map<String,Any>> {
+        val pageable:Pageable = PageRequest.of(page - 1, size)
+        val products = productService.getAllProducts(searchQuery, selectedCategory, pageable)
+
+        val response = mapOf(
+            "data" to products.content,
+            "currentPage" to products.number + 1,
+            "totalItems" to products.totalElements,
+            "totalPages" to products.totalPages
+        )
+        return ResponseEntity.ok(response)
+    }
+
+    // Get product with category
+    @Operation(summary = "Get product with category", description = "Get product with category from database")
+    @GetMapping("/{id}/category")
+    fun getProductWithCategory(@PathVariable id: Int): ResponseEntity<Map<String, Any>> {
+        val product = productService.getProductWithCategory(id)
+        return product.map { ResponseEntity.ok(it) }
+                      .orElseGet { ResponseEntity(HttpStatus.NOT_FOUND) }
+    }
 
     // Get product by id
     @Operation(summary = "Get product by ID", description = "Get product by ID from database")

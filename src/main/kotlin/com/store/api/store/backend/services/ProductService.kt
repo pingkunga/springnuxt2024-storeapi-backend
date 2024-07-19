@@ -2,6 +2,7 @@ package com.store.api.store.backend.services
 
 import com.store.api.store.backend.models.Product
 import com.store.api.store.backend.repositories.ProductRepository
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
@@ -9,6 +10,9 @@ import java.util.*
 
 @Service
 class ProductService(private val productRepository: ProductRepository) {
+
+    @Value("\${file.upload-dir}")
+    private lateinit var uploadDir: String
 
     // Get all products
     // select * from products

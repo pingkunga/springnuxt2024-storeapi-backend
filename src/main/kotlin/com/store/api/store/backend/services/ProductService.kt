@@ -103,7 +103,9 @@ class ProductService(private val productRepository: ProductRepository) {
     // delete from products where id = ?
     fun deleteProduct(id: Int) {
         if (productRepository.existsById(id)) {
-            productRepository.deleteById(id)
+            val product = productRepository.findById(id).get()
+            deleteFile(product.productPicture!!)
+            productRepository.delete(product)
         } else {
             throw RuntimeException("Product not found with id: $id")
         }

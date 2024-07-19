@@ -113,10 +113,10 @@ class ProductController(private val productService: ProductService) {
 
 
     // Delete Product
-    @Operation(summary = "Delete product by ID", description = "Delete product by ID from database")
+    @Operation(summary = "Delete product" , description = "Delete product from database")
     @DeleteMapping("/{id}")
     fun deleteProduct(@PathVariable id: Int): ResponseEntity<Void> {
         productService.deleteProduct(id)
-        return ResponseEntity(HttpStatus.NO_CONTENT)
+        return ResponseEntity.noContent().build()
     }
 }

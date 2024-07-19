@@ -84,12 +84,33 @@ class ProductController(private val productService: ProductService) {
     }
 
     // Update Product
-    @Operation(summary = "Update product by ID", description = "Update product by ID from database")
-    @PutMapping("/{id}")
-    fun updateProduct(@PathVariable id: Int, @RequestBody product: Product): ResponseEntity<Product> {
-        val updatedProduct = productService.updateProduct(id, product)
+    // PUT /api/products/{id}
+    @Operation(summary = "Update product" , description = "Update product to database")
+    @PutMapping("/{id}", consumes = ["multipart/form-data"])
+    fun updateProduct(
+        @PathVariable id: Int,
+        @RequestParam productName: String,
+        @RequestParam unitPrice: BigDecimal,
+        @RequestParam unitInStock: Int,
+        @RequestParam(required = false) productPicture: String?,
+        @RequestParam categoryId: Int,
+        @RequestParam(required = false) createdDate: LocalDateTime?,
+        @RequestParam(required = false) modifiedDate: LocalDateTime?,
+        @RequestParam(required = false) image: MultipartFile?
+    ): ResponseEntity<Product> {
+        val product = Product(
+            productName = productName,
+            unitPrice = unitPrice,
+            unitInStock = unitInStock,
+            productPicture = productPicture,
+            categoryId = categoryId,
+            createdDate = createdDate ?: LocalDateTime.now(),
+            modifiedDate = modifiedDate
+        )
+        val updatedProduct = productService.updateProduct(id, product, image)
         return ResponseEntity.ok(updatedProduct)
     }
+
 
     // Delete Product
     @Operation(summary = "Delete product by ID", description = "Delete product by ID from database")

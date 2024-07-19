@@ -77,10 +77,23 @@ class ProductService(private val productRepository: ProductRepository) {
 
     // Update Product
     // update products set product_name = ?, product_price = ?, product_quantity = ?, product_image = ? where id = ?
-    fun updateProduct(id: Int, updateProduct: Product): Product {
+    fun updateProduct(id: Int, updateProduct: Product, image: MultipartFile?): Product {
         return if (productRepository.existsById(id)) {
-            updateProduct.id = id
-            productRepository.save(updateProduct)
+            val existingProduct = productRepository.findById(id).get()
+
+            existingProduct.productName = updateProduct.productName
+            existingProduct.unitPrice = updateProduct.unitPrice
+            existingProduct.unitInStock = updateProduct.unitInStock
+            existingProduct.categoryId = updateProduct.categoryId
+            existingProduct.modifiedDate = updateProduct.modifiedDate
+
+            if (image != null) {
+                val newFileName = saveFile(image)
+                deleteFile(existingProduct.productPicture!!)
+                existingProduct.productPicture = newFileName
+            }
+
+            productRepository.save(existingProduct)
         } else {
             throw RuntimeException("Product not found with id: $id")
         }

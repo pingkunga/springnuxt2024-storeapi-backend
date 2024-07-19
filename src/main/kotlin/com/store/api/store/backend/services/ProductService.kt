@@ -6,6 +6,11 @@ import org.springframework.beans.factory.annotation.Value
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
+import org.springframework.web.multipart.MultipartFile
+import java.io.FileOutputStream
+import java.io.IOException
+import java.nio.file.Files
+import java.nio.file.Paths
 import java.util.*
 
 @Service
@@ -14,6 +19,36 @@ class ProductService(private val productRepository: ProductRepository) {
     @Value("\${file.upload-dir}")
     private lateinit var uploadDir: String
 
+    //-------------------------------------------------------------------------------------------------
+    //File Upload
+    @Throws(IOException::class)
+    fun saveFile(file: MultipartFile): String {
+        val fileName = UUID.randomUUID().toString() + "_" + file.originalFilename
+        val filePath = Paths.get(uploadDir, fileName)
+
+        if (!Files.exists(filePath.parent)) {
+            Files.createDirectories(filePath.parent)
+        }
+
+        FileOutputStream(filePath.toFile()).use { fos ->
+            fos.write(file.bytes)
+        }
+
+        return fileName
+    }
+
+    fun deleteFile(fileName: String) {
+        if (fileName != "noimg.jpg") {
+            val filePath = Paths.get(uploadDir, fileName)
+            try {
+                Files.deleteIfExists(filePath)
+            } catch (e: IOException) {
+                e.printStackTrace()
+            }
+        }
+    }
+
+    //-------------------------------------------------------------------------------------------------
     // Get all products
     // select * from products
     // with search + pagination
@@ -31,7 +66,14 @@ class ProductService(private val productRepository: ProductRepository) {
 
     // Create product
     // insert into products (product_name, product_price, product_quantity, product_image) values (?, ?, ?, ?)
-    fun createProduct(product: Product): Product = productRepository.save(product)
+    fun createProduct(product: Product, image: MultipartFile?): Product {
+        if (image != null) {
+            product.productPicture = saveFile(image)
+        } else {
+            product.productPicture = "noimg.jpg"
+        }
+        return productRepository.save(product)
+    }
 
     // Update Product
     // update products set product_name = ?, product_price = ?, product_quantity = ?, product_image = ? where id = ?

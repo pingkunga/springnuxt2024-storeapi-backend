@@ -9,6 +9,9 @@ import org.springframework.data.domain.Pageable
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
+import org.springframework.web.multipart.MultipartFile
+import java.math.BigDecimal
+import java.time.LocalDateTime
 
 @Tag(name = "Products", description = "APIs for managing products")
 @RestController
@@ -54,11 +57,30 @@ class ProductController(private val productService: ProductService) {
     }
 
     // Create product
-    @Operation(summary = "Create new product", description = "Create new product in database")
-    @PostMapping
-    fun createProduct(@RequestBody product: Product): ResponseEntity<Product> {
-        val createdProduct = productService.createProduct(product)
-        return ResponseEntity(createdProduct, HttpStatus.CREATED)
+    // POST /api/products
+    @Operation(summary = "Create product" , description = "Create product to database")
+    @PostMapping(consumes = ["multipart/form-data"])
+    fun createProduct(
+        @RequestParam productName: String,
+        @RequestParam unitPrice: BigDecimal,
+        @RequestParam unitInStock: Int,
+        @RequestParam(required = false) productPicture: String?,
+        @RequestParam categoryId: Int,
+        @RequestParam(required = false) createdDate: LocalDateTime?,
+        @RequestParam(required = false) modifiedDate: LocalDateTime?,
+        @RequestParam(required = false) image: MultipartFile?
+    ): ResponseEntity<Product> {
+        val product = Product(
+            productName = productName,
+            unitPrice = unitPrice,
+            unitInStock = unitInStock,
+            productPicture = productPicture,
+            categoryId = categoryId,
+            createdDate = createdDate ?: LocalDateTime.now(),
+            modifiedDate = modifiedDate
+        )
+        val createdProduct = productService.createProduct(product, image)
+        return ResponseEntity.status(201).body(createdProduct)
     }
 
     // Update Product

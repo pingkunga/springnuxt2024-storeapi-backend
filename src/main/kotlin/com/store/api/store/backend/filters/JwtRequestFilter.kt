@@ -1,6 +1,7 @@
 package com.store.api.store.backend.filters
 
 import com.store.api.store.backend.utils.JwtUtil
+import com.store.api.store.backend.utils.TokenStore
 import jakarta.servlet.FilterChain
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
@@ -15,7 +16,8 @@ import org.springframework.context.annotation.Lazy
 @Component
 class JwtRequestFilter(
     @Lazy private val userDetailsService: UserDetailsService,
-    private val jwtUtil: JwtUtil
+    private val jwtUtil: JwtUtil,
+    private val tokenStore: TokenStore
 ) : OncePerRequestFilter() {
 
     override fun doFilterInternal(request: HttpServletRequest, response: HttpServletResponse, filterChain: FilterChain) {
@@ -31,6 +33,11 @@ class JwtRequestFilter(
 
         if (username != null && SecurityContextHolder.getContext().authentication == null) {
             val userDetails = userDetailsService.loadUserByUsername(username)
+
+            if (tokenStore.isTokenInvalidated(jwt!!)) {
+                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Token expired")
+                return
+            }
 
             if (jwtUtil.validateToken(jwt!!, userDetails)) {
                 val usernamePasswordAuthenticationToken = UsernamePasswordAuthenticationToken(

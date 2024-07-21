@@ -1,10 +1,11 @@
 package com.store.api.store.backend.controllers
 
-import com.store.api.store.backend.models.LoginModel
-import com.store.api.store.backend.models.RegisterModel
-import com.store.api.store.backend.models.ResponseModel
+import com.store.api.store.backend.dtos.LoginModel
+import com.store.api.store.backend.dtos.RegisterModel
+import com.store.api.store.backend.dtos.ResponseModel
 import com.store.api.store.backend.services.UserService
 import com.store.api.store.backend.utils.JwtUtil
+import com.store.api.store.backend.utils.TokenStore
 
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
@@ -12,10 +13,8 @@ import org.springframework.http.ResponseEntity
 import org.springframework.security.core.Authentication
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.crypto.password.PasswordEncoder
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
+import kotlin.text.startsWith
 
 @Tag(name = "Authenticate", description = "Authenticate API")
 @RestController
@@ -23,7 +22,8 @@ import org.springframework.web.bind.annotation.RestController
 class UserController(
     private val userService: UserService,
     private val jwtUtil: JwtUtil,
-    private val passwordEncoder: PasswordEncoder
+    private val passwordEncoder: PasswordEncoder,
+    private val tokenStore: TokenStore
 ) {
 
     // POST /api/authenticate/register-user
@@ -92,9 +92,11 @@ class UserController(
                 "roles" to roles,
                 "expiration" to expiration
             )
-            ResponseEntity.ok(ResponseModel(
+            ResponseEntity.ok(
+                ResponseModel(
                 "Success", "Login successful", data
-            ))
+            )
+            )
         } else {
             ResponseEntity.status(401).body(ResponseModel("Error", "Invalid username or password"))
         }
@@ -103,9 +105,13 @@ class UserController(
     @Operation(summary = "Logout", description = "Logout from the system")
     // POST /api/authenticate/logout
     @PostMapping("/logout")
-    fun logout(): ResponseEntity<ResponseModel> {
+    fun logout(@RequestHeader("Authorization") authorizationHeader: String?): ResponseEntity<ResponseModel> {
         val auth: Authentication? = SecurityContextHolder.getContext().authentication
         if (auth != null) {
+            if ((authorizationHeader != null) && authorizationHeader.startsWith("Bearer ")) {
+                val jwt = authorizationHeader.substring(7)
+                tokenStore.invalidateToken(jwt, 300)
+            }
             SecurityContextHolder.clearContext()
         }
         return ResponseEntity.ok(ResponseModel("Success", "Logged out successfully"))

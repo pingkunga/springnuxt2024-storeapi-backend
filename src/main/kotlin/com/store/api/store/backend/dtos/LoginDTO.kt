@@ -1,4 +1,4 @@
-package com.store.api.store.backend.models
+package com.store.api.store.backend.dtos
 
 data class LoginModel(
     val username: String,

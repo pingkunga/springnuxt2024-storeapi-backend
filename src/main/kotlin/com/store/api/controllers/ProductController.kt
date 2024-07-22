@@ -1,5 +1,6 @@
 package com.store.api.controllers
 
+import com.store.api.dtos.ProductDTO
 import com.store.api.models.Product
 import com.store.api.services.ProductService
 import io.swagger.v3.oas.annotations.Operation
@@ -41,7 +42,7 @@ class ProductController(private val productService: ProductService) {
     // Get product with category
     @Operation(summary = "Get product with category", description = "Get product with category from database")
     @GetMapping("/{id}/category")
-    fun getProductWithCategory(@PathVariable id: Int): ResponseEntity<Map<String, Any>> {
+    fun getProductWithCategory(@PathVariable id: Int): ResponseEntity<ProductDTO> {
         val product = productService.getProductWithCategory(id)
         return product.map { ResponseEntity.ok(it) }
                       .orElseGet { ResponseEntity(HttpStatus.NOT_FOUND) }

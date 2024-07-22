@@ -1,5 +1,6 @@
 package com.store.api.services
 
+import com.store.api.dtos.ProductDTO
 import com.store.api.models.Product
 import com.store.api.repositories.ProductRepository
 import org.springframework.beans.factory.annotation.Value
@@ -52,11 +53,11 @@ class ProductService(private val productRepository: ProductRepository) {
     // Get all products
     // select * from products
     // with search + pagination
-    fun getAllProducts(searchQuery: String?, selectedCategory: Int?, page: Pageable): Page<Product> {
+    fun getAllProducts(searchQuery: String?, selectedCategory: Int?, page: Pageable): Page<ProductDTO> {
         return productRepository.findBySearchQueryAndCategory(searchQuery, selectedCategory, page)
     }
 
-    fun getProductWithCategory(id: Int): Optional<Map<String, Any>> {
+    fun getProductWithCategory(id: Int): Optional<ProductDTO> {
         return productRepository.findProductWithCategory(id)
     }
 

@@ -1,9 +1,9 @@
-package com.store.api.services
+package com.store.api.service
 
-import com.store.api.models.RoleName
-import com.store.api.models.User
-import com.store.api.repositories.UserRepository
-import com.store.api.repositories.RoleRepository
+import com.store.api.model.RoleName
+import com.store.api.model.User
+import com.store.api.repository.UserRepository
+import com.store.api.repository.RoleRepository
 
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails

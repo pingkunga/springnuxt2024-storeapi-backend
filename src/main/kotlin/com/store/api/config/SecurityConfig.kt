@@ -1,6 +1,6 @@
 package com.store.api.config
 
-import com.store.api.filters.JwtRequestFilter
+import com.store.api.filter.JwtRequestFilter
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.security.authentication.AuthenticationManager

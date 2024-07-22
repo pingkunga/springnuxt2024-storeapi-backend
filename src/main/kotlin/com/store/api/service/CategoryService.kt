@@ -1,7 +1,7 @@
-package com.store.api.services
+package com.store.api.service
 
-import com.store.api.models.Category
-import com.store.api.repositories.CategoryRepository
+import com.store.api.model.Category
+import com.store.api.repository.CategoryRepository
 import org.springframework.stereotype.Service
 import java.util.*
 

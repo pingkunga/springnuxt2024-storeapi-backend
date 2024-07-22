@@ -1,8 +1,8 @@
-package com.store.api.services
+package com.store.api.service
 
-import com.store.api.dtos.ProductDTO
-import com.store.api.models.Product
-import com.store.api.repositories.ProductRepository
+import com.store.api.dto.ProductDTO
+import com.store.api.model.Product
+import com.store.api.repository.ProductRepository
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable

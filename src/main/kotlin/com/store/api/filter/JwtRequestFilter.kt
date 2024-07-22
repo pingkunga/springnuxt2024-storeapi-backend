@@ -1,7 +1,7 @@
-package com.store.api.filters
+package com.store.api.filter
 
-import com.store.api.utils.JwtUtil
-import com.store.api.utils.TokenStore
+import com.store.api.util.JwtUtil
+import com.store.api.util.TokenStore
 import jakarta.servlet.FilterChain
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse

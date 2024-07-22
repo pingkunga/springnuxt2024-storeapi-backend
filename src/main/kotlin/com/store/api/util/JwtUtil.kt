@@ -1,4 +1,4 @@
-package com.store.api.utils
+package com.store.api.util
 
 import io.jsonwebtoken.Claims
 import io.jsonwebtoken.Jwts

@@ -1,7 +1,7 @@
-package com.store.api.controllers
+package com.store.api.controller
 
-import com.store.api.models.Category
-import com.store.api.services.CategoryService
+import com.store.api.model.Category
+import com.store.api.service.CategoryService
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
 import org.springframework.http.ResponseEntity

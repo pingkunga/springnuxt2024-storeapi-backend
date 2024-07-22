@@ -1,6 +1,6 @@
-package com.store.api.repositories
+package com.store.api.repository
 
-import com.store.api.models.User
+import com.store.api.model.User
 import org.springframework.data.jpa.repository.JpaRepository
 
 interface UserRepository: JpaRepository<User, Long> {

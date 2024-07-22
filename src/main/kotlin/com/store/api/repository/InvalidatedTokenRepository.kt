@@ -1,6 +1,6 @@
-package com.store.api.repositories
+package com.store.api.repository
 
-import com.store.api.models.InvalidatedToken
+import com.store.api.model.InvalidatedToken
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Repository
 import java.time.LocalDateTime

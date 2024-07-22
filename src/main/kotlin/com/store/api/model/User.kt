@@ -1,22 +1,26 @@
-package com.store.api.models
+package com.store.api.model
 
+import com.fasterxml.jackson.annotation.JsonIgnore
 import jakarta.persistence.*
 
-enum class RoleName {
-    USER, MANAGER, ADMIN
-}
-
 @Entity
-@Table(name = "roles")
-data class Role(
+@Table(name = "users")
+data class User(
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long = 0,
 
-    @Enumerated(EnumType.STRING)
     @Column(unique = true, nullable = false)
-    val roleName: RoleName,
+    var username: String,
+
+    @Column(unique = true, nullable = false)
+    var email: String,
+
+    //not show in swagger
+    @JsonIgnore
+    @Column(nullable = false)
+    var password: String,
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
@@ -24,11 +28,5 @@ data class Role(
         joinColumns = [JoinColumn(name = "user_id")],
         inverseJoinColumns = [JoinColumn(name = "role_id")]
     )
-    var roles: MutableList<Role> = mutableListOf(),
-
-    @ManyToMany(mappedBy = "roles")
-    val users: MutableList<User> = mutableListOf()
-
-
-
+    var roles: MutableList<Role> = mutableListOf()
 )

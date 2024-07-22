@@ -1,4 +1,4 @@
-package com.store.api.dtos
+package com.store.api.dto
 
 import java.math.BigDecimal
 import java.time.LocalDateTime

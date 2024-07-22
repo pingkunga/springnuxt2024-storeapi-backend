@@ -1,4 +1,4 @@
-package com.store.api.models
+package com.store.api.model
 
 import com.fasterxml.jackson.annotation.JsonFormat
 import jakarta.persistence.*

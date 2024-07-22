@@ -1,6 +1,6 @@
-package com.store.api.repositories
+package com.store.api.repository
 
-import com.store.api.models.Category
+import com.store.api.model.Category
 import org.springframework.data.jpa.repository.JpaRepository
 
 interface CategoryRepository: JpaRepository<Category, Int> {

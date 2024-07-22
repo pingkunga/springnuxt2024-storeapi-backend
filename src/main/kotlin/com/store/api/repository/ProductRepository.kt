@@ -1,7 +1,7 @@
-package com.store.api.repositories
+package com.store.api.repository
 
-import com.store.api.dtos.ProductDTO
-import com.store.api.models.Product
+import com.store.api.dto.ProductDTO
+import com.store.api.model.Product
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.data.jpa.repository.JpaRepository
@@ -22,7 +22,7 @@ interface ProductRepository : JpaRepository<Product, Int> {
     ): Page<Product>
     */
     @Query("""
-        SELECT new com.store.api.dtos.ProductDTO(p.id, p.productName, p.unitPrice, p.unitInStock, p.productPicture, c.id, c.categoryName, p.createdDate, p.modifiedDate)
+        SELECT new com.store.api.dto.ProductDTO(p.id, p.productName, p.unitPrice, p.unitInStock, p.productPicture, c.id, c.categoryName, p.createdDate, p.modifiedDate)
         FROM Product p JOIN Category c ON p.categoryId = c.id
         WHERE (:searchQuery IS NULL OR :searchQuery = '' OR LOWER(p.productName) LIKE LOWER(CONCAT('%', :searchQuery, '%')))
           AND (:selectedCategory IS NULL OR p.categoryId = :selectedCategory)
@@ -39,7 +39,7 @@ interface ProductRepository : JpaRepository<Product, Int> {
     */
 
     @Query("""
-        SELECT new com.store.api.dtos.ProductDTO(p.id, p.productName, p.unitPrice, p.unitInStock, p.productPicture, c.id, c.categoryName, p.createdDate, p.modifiedDate)
+        SELECT new com.store.api.dto.ProductDTO(p.id, p.productName, p.unitPrice, p.unitInStock, p.productPicture, c.id, c.categoryName, p.createdDate, p.modifiedDate)
         FROM Product p JOIN Category c ON p.categoryId = c.id
         WHERE p.id = :id
     """)

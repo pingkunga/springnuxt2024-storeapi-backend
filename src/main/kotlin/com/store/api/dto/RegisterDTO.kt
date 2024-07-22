@@ -1,4 +1,4 @@
-package com.store.api.dtos
+package com.store.api.dto
 
 data class RegisterModel(
     val username: String,

@@ -1,7 +1,7 @@
-package com.store.api.repositories
+package com.store.api.repository
 
-import com.store.api.models.Role
-import com.store.api.models.RoleName
+import com.store.api.model.Role
+import com.store.api.model.RoleName
 import org.springframework.data.jpa.repository.JpaRepository
 
 interface RoleRepository: JpaRepository<Role, Long> {

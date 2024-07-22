@@ -1,8 +1,8 @@
-package com.store.api.controllers
+package com.store.api.controller
 
-import com.store.api.dtos.ProductDTO
-import com.store.api.models.Product
-import com.store.api.services.ProductService
+import com.store.api.dto.ProductDTO
+import com.store.api.model.Product
+import com.store.api.service.ProductService
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
 import org.springframework.data.domain.PageRequest

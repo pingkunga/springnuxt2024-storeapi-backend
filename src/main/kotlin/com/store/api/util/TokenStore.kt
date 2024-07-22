@@ -1,7 +1,7 @@
-package com.store.api.utils
+package com.store.api.util
 
-import com.store.api.models.InvalidatedToken
-import com.store.api.repositories.InvalidatedTokenRepository
+import com.store.api.model.InvalidatedToken
+import com.store.api.repository.InvalidatedTokenRepository
 import org.springframework.stereotype.Component
 import java.time.LocalDateTime
 

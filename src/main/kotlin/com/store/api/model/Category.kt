@@ -1,4 +1,4 @@
-package com.store.api.models
+package com.store.api.model
 
 import jakarta.persistence.*
 import jakarta.validation.constraints.NotBlank

@@ -1,11 +1,11 @@
-package com.store.api.controllers
+package com.store.api.controller
 
-import com.store.api.dtos.LoginModel
-import com.store.api.dtos.RegisterModel
-import com.store.api.dtos.ResponseModel
-import com.store.api.services.UserService
-import com.store.api.utils.JwtUtil
-import com.store.api.utils.TokenStore
+import com.store.api.dto.LoginModel
+import com.store.api.dto.RegisterModel
+import com.store.api.dto.ResponseModel
+import com.store.api.service.UserService
+import com.store.api.util.JwtUtil
+import com.store.api.util.TokenStore
 
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag

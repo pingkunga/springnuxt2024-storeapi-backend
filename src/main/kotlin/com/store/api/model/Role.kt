@@ -1,10 +1,7 @@
 package com.store.api.model
 
+import com.store.api.constant.RoleName
 import jakarta.persistence.*
-
-enum class RoleName {
-    USER, MANAGER, ADMIN
-}
 
 @Entity
 @Table(name = "roles")

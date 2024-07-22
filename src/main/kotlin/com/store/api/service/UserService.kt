@@ -1,6 +1,6 @@
 package com.store.api.service
 
-import com.store.api.model.RoleName
+import com.store.api.constant.RoleName
 import com.store.api.model.User
 import com.store.api.repository.UserRepository
 import com.store.api.repository.RoleRepository

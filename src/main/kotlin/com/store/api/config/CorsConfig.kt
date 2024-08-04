@@ -15,7 +15,8 @@ class CorsConfig {
         config.allowCredentials = true
 
         // Allow specific origins
-        // config.addAllowedOrigin("*") Not Good Practice
+        //Not Good Practice
+        //config.addAllowedOrigin("*")
 
         // Allow specific origins
         config.addAllowedOrigin("https://pingkunga.dev")
@@ -31,6 +32,7 @@ class CorsConfig {
         config.addAllowedOriginPattern("https://*.onrender.com")
         config.addAllowedOriginPattern("https://*.surge.sh")
         config.addAllowedOrigin("http://localhost:8080")
+        //config.addAllowedOrigin("http://192.168.1.102:3000")
         config.addAllowedOrigin("http://localhost:4200")
         config.addAllowedOrigin("http://localhost:3000")
         config.addAllowedOrigin("http://localhost:5173")

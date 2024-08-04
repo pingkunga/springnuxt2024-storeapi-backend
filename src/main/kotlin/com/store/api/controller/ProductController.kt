@@ -25,13 +25,13 @@ class ProductController(private val productService: ProductService) {
         @RequestParam(required = false, value = "searchQuery") searchQuery: String?,
         @RequestParam(required = false, value = "selectedCategory") selectedCategory: Int?,
         @RequestParam(defaultValue = "1") page: Int,
-        @RequestParam(defaultValue = "100") size: Int
+        @RequestParam(defaultValue = "100") limit: Int
     ): ResponseEntity<Map<String,Any>> {
-        val pageable:Pageable = PageRequest.of(page - 1, size)
+        val pageable:Pageable = PageRequest.of(page - 1, limit)
         val products = productService.getAllProducts(searchQuery, selectedCategory, pageable)
 
         val response = mapOf(
-            "data" to products.content,
+            "products" to products.content,
             "currentPage" to products.number + 1,
             "totalItems" to products.totalElements,
             "totalPages" to products.totalPages

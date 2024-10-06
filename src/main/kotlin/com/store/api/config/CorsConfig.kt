@@ -35,6 +35,8 @@ class CorsConfig {
         //config.addAllowedOrigin("http://192.168.1.102:3000")
         config.addAllowedOrigin("http://localhost:4200")
         config.addAllowedOrigin("http://localhost:3000")
+        config.addAllowedOrigin("http://localhost:3000")
+        config.addAllowedOrigin("http://localhost:3300")
         config.addAllowedOrigin("http://localhost:5173")
         config.addAllowedOrigin("http://localhost:5000")
         config.addAllowedOrigin("http://localhost:5001")

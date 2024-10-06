@@ -11,6 +11,7 @@ import org.springframework.web.multipart.MultipartFile
 import java.io.FileOutputStream
 import java.io.IOException
 import java.nio.file.Files
+import java.nio.file.Path
 import java.nio.file.Paths
 import java.util.*
 
@@ -25,6 +26,10 @@ class ProductService(private val productRepository: ProductRepository) {
     @Throws(IOException::class)
     fun saveFile(file: MultipartFile): String {
         val fileName = UUID.randomUUID().toString() + "_" + file.originalFilename
+
+        //check if directory exists
+        createDirectoryIfNotExists(Paths.get(uploadDir).normalize())
+
         val filePath = Paths.get(uploadDir, fileName)
 
         if (!Files.exists(filePath.parent)) {
@@ -36,6 +41,12 @@ class ProductService(private val productRepository: ProductRepository) {
         }
 
         return fileName
+    }
+
+    private fun createDirectoryIfNotExists(path: Path) {
+        if (Files.notExists(path)) {
+            Files.createDirectories(path)
+        }
     }
 
     fun deleteFile(fileName: String) {
